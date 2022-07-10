@@ -1,5 +1,5 @@
 LINKDIR = tmp/
-LDOPTS = -Tlink.ld -build-id=none -b pei-i386
+LDOPTS = -Tlink.ld -build-id=none -m elf32_i386
 GCCOPTS = -std=gnu99 -ffreestanding -O2 -Wall -Wextra -nostdlib
 
 build: clean compile link
@@ -15,10 +15,8 @@ compile:
 	@gcc $(GCCOPTS) -o $(LINKDIR)kernel.o kernel/main.c
 
 link:
-	@echo [LD] preelf.o
-	@ld $(LINKDIR)boot.o $(LINKDIR)kernel.o $(LDOPTS) -o $(LINKDIR)preelf.o
-	@echo [OBJCOPY] out.kern
-	@objcopy -O elf32-i386 $(LINKDIR)preelf.o out.kern
+	@echo [LD] out.kern
+	@ld $(LINKDIR)boot.o $(LINKDIR)kernel.o $(LDOPTS) -o out.kern
 
 run:
 	@qemu-system-i386 -kernel out.kern
