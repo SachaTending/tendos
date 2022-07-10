@@ -6,13 +6,13 @@ build: clean compile link
 
 clean:
 	@echo Clearing...
-	@del tmp\* /s /q
+	@rm tmp/*
 
 compile:
 	@echo [AS] boot.o
 	@nasm -f elf32 loader/loader.asm -o $(LINKDIR)boot.o
 	@echo [CC] kernel.o
-	@gcc $(GCCOPTS) -o $(LINKDIR)kernel.o kernel/main.c
+	@i686-elf-gcc $(GCCOPTS) -o $(LINKDIR)kernel.o kernel/main.c
 
 link:
 	@echo [LD] preelf.o
