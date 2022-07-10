@@ -1,5 +1,5 @@
 LINKDIR = tmp/
-LDOPTS = -Tlink.ld -build-id=none -m elf32_i386
+LDOPTS = -Tlink.ld -build-id=none -m elf_i386
 GCCOPTS = -std=gnu99 -ffreestanding -O2 -Wall -Wextra -nostdlib
 
 build: clean compile link
