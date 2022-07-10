@@ -12,7 +12,7 @@ compile:
 	@echo [AS] boot.o
 	@nasm -f elf32 loader/loader.asm -o $(LINKDIR)boot.o
 	@echo [CC] kernel.o
-	@i686-elf-gcc $(GCCOPTS) -o $(LINKDIR)kernel.o kernel/main.c
+	@gcc $(GCCOPTS) -o $(LINKDIR)kernel.o kernel/main.c
 
 link:
 	@echo [LD] preelf.o
