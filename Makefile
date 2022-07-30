@@ -18,8 +18,6 @@ clean:
 	@del tmp\* /s /q
 
 clean_and_build:
-	@echo Clearing...
-	@del tmp/* /s /q
 	@make -j4 buildc
 
 
