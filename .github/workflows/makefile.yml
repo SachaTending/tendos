@@ -9,13 +9,10 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v3
-    
-    - name: configure
-      run: sudo apt install nasm gcc-i686-linux-gnu
       
     - name: Compile
       run: make
