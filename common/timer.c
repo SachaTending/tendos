@@ -14,11 +14,11 @@ void timer_handler(struct regs *r)
 	/* Increment our 'tick count' */
 	timer_ticks++;
 	
-
+	printf("Tick: " + toString(timer_ticks, 10));
 	if (timer_ticks % 18 == 0)
 	{
 		seconds++;
-		printf("Tick: " + toString(seconds, 10));
+		// printf("Tick: " + toString(seconds, 10));
 		//kprint(toString(seconds, 10));
 	}
 }
@@ -26,7 +26,7 @@ void timer_handler(struct regs *r)
 
 void sleep (int ticks){
     int startTicks = timer_ticks;
-    while(timer_ticks < startTicks + ticks){}
+    while(timer_ticks < startTicks + ticks);
     return;
 }
 

@@ -1,6 +1,6 @@
 LINKDIR = tmp/
 LDOPTS = -Tlink.ld -build-id=none -b pei-i386
-GCCOPTS = -std=gnu99 -ffreestanding -O2 -w -nostdlib -c -I include -g
+GCCOPTS = -std=gnu99 -ffreestanding -O2 -w -nostdlib -I include -g -fno-exceptions -c
 
 build: clean_and_build
 	@make link
@@ -18,6 +18,8 @@ clean:
 	@del tmp\* /s /q
 
 clean_and_build:
+	@echo Clearing...
+	@del tmp\* /q
 	@make -j4 buildc
 
 
@@ -40,8 +42,8 @@ link:
 	@objcopy -O elf32-i386 $(LINKDIR)preelf.o out.kern
 
 run:
-	@qemu-system-i386 -kernel out.kern -m 2m -serial stdio -d guest_errors -d page -d cpu_reset -d strace
+	@qemu-system-i386 -kernel out.kern -m 2m -serial stdio -d guest_errors -d page -d cpu_reset -d strace -fda floppy.img
 
 
 rungdb:
-	@qemu-system-i386 -kernel out.kern -m 2m -serial stdio -d guest_errors -d page -d cpu_reset -d strace -s -S
+	@qemu-system-i386 -kernel out.kern -m 2m -serial stdio -d guest_errors -d page -d cpu_reset -d strace -s -S -fda floppy.img

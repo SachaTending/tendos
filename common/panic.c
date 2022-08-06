@@ -1,5 +1,11 @@
 #include "printf.h"
 
+
+void panic(char *message)
+{
+	kernelpanic(message);
+}
+
 void kernelpanic(char *message)
 {
 	printf("\nKernel: KERNEL PANIC!!!");

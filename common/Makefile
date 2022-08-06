@@ -1,4 +1,4 @@
-COMMON_OBJS = $(LINKDIR)pci.o $(LINKDIR)A20.o $(LINKDIR)timer.o $(LINKDIR)printf.o $(LINKDIR)irq.o $(LINKDIR)panic.o $(LINKDIR)inlineasm.o $(LINKDIR)screen.o $(LINKDIR)pic_and_pit.o
+COMMON_OBJS = $(LINKDIR)pci.o $(LINKDIR)A20.o $(LINKDIR)irq2.o $(LINKDIR)interrupts.o $(LINKDIR)timer.o $(LINKDIR)printf.o $(LINKDIR)irq.o $(LINKDIR)panic.o $(LINKDIR)inlineasm.o $(LINKDIR)screen.o $(LINKDIR)pic_and_pit.o
 
 common_build:
 	@echo Target: common
@@ -20,4 +20,8 @@ common_build:
 	@gcc $(GCCOPTS) -o $(LINKDIR)panic.o common/panic.c
 	@echo Common: [CC] timer.o
 	@gcc $(GCCOPTS) -o $(LINKDIR)timer.o common/timer.c
+	@echo Common: [CC] irq2.o
+	@gcc $(GCCOPTS) -o $(LINKDIR)irq2.o common/irq.cpp
+	@echo Common: [CC] interrupts.o
+	@nasm -felf32 -o $(LINKDIR)interrupts.o common/interrupts.s
 	@echo Common compilling done!

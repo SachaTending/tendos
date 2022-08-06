@@ -23,6 +23,13 @@ void init_base()
 	printf("\n");
 	pit_init(SYSTEM_TICKS_PER_SEC);
     pic_init();
+	idt_install();
+	irq_install();
+	timer_phase(SYSTEM_TICKS_PER_SEC);
+	asm volatile ("sti");
+	timer_install();
+	printf("Init base: Initializating floppy driver...");
+	floppy_init();
     init_serial();
     init_keyboard();
 }

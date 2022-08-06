@@ -564,6 +564,11 @@ void printfc(char color, char *string)
 	printc_string(color, string);
 }
 
+void printError(char *msg)
+{
+	printf(msg);
+}
+
 int
 vprintf (const char *format, va_list ap)
 {

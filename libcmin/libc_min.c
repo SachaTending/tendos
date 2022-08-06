@@ -28,6 +28,14 @@ const char* reverse(const char* str, char* buffer, int len){
 
 char toStringRes[128];
 
+void* memset2(void* dest, unsigned char val, int count){ 
+	unsigned char* destC = (unsigned char*)dest;
+	int i;
+	for (i = 0; i < count; i++)
+		destC[i] = val;
+	return dest;
+}
+
 const char* toString(int n, int base) {
 
 	char* buffer = toStringRes;
