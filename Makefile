@@ -15,7 +15,7 @@ buildc: libc compile common_build userland init_base driver
 
 clean:
 	@echo Clearing...
-	@del tmp\* /s /q
+	@rm -rf tmp/*.o
 
 clean_and_build:
 	@echo Clearing...
