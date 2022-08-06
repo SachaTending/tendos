@@ -29,7 +29,7 @@ compile:
 	@echo Kernel: [AS] boot.o
 	@nasm -f elf32 loader/loader.asm -o $(LINKDIR)boot.o
 	@echo Kernel: [CC] kernel.o
-	@gcc $(GCCOPTS) -fno-builtins -o $(LINKDIR)kernel.o kernel/main.c
+	@gcc $(GCCOPTS) -fno-builtin -o $(LINKDIR)kernel.o kernel/main.c
 	@echo Kernel compilling done!
 
 .c.o:
