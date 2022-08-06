@@ -2,7 +2,7 @@
 just a small os
 
 
-# Tasks (0/2)
+# Tasks (1/2)
 
 1.Display hello world string
 
