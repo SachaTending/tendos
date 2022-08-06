@@ -2,7 +2,8 @@ LINKDIR = tmp/
 LDOPTS = -Tlink.ld -build-id=none -b pei-i386
 GCCOPTS = -std=gnu99 -ffreestanding -O2 -w -nostdlib -I include -g -fno-exceptions -c
 
-build: clean_and_build
+build: 
+	@make -j4 buildc
 	@make link
 
 include common/Makefile
