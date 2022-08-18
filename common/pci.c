@@ -105,15 +105,15 @@ void PrintPCIDevHeader(char bus, char dev, char func, PCIDevHeader *p_pciDevice)
 	//out = out + (p_pciDevice->option.vendorID + '0');
 	//out = out + " devID=";
 	//out = out + (p_pciDevice->option.deviceID + '0');
-	//print_string("PCI: bus=0x%x dev=0x%x func=0x%x venID=0x%x devID=0x%x",
-	//		bus, dev, func, p_pciDevice->option.vendorID, p_pciDevice->option.deviceID);
+	printf2("PCI: bus=0x%x dev=0x%x func=0x%x venID=0x%x devID=0x%x",
+			bus, dev, func, p_pciDevice->option.vendorID, p_pciDevice->option.deviceID);
 	printf("PCI: bus=");printf(bus + ' dev=');printf(dev);
 	class_name = GetPCIDevClassName(p_pciDevice->option.classCode);
 	if (class_name)
 		//out = out + " class_name=";
 		//out = out + class_name;
-		printf(" classname=");
-		printf(class_name);
+		printf2(" classname=%x", class_name);
+		// print2(class_name);
 	
 	//printf(out);
 	printf("\n");

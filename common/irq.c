@@ -109,24 +109,6 @@ void irq15();
 void irq_install()
 {
     irq_remap();
-
-    idt_set_gate(32, (unsigned)0, 0x08, 0x8E);
-    idt_set_gate(33, (unsigned)1, 0x08, 0x8E);
-    idt_set_gate(34, (unsigned)2, 0x08, 0x8E);
-    idt_set_gate(35, (unsigned)3, 0x08, 0x8E);
-    idt_set_gate(36, (unsigned)4, 0x08, 0x8E);
-    idt_set_gate(37, (unsigned)5, 0x08, 0x8E);
-    idt_set_gate(38, (unsigned)6, 0x08, 0x8E);
-    idt_set_gate(39, (unsigned)7, 0x08, 0x8E);
-    idt_set_gate(40, (unsigned)8, 0x08, 0x8E);
-    idt_set_gate(41, (unsigned)9 , 0x08, 0x8E);
-    idt_set_gate(42, (unsigned)10, 0x08, 0x8E);
-    idt_set_gate(43, (unsigned)11, 0x08, 0x8E);
-    idt_set_gate(44, (unsigned)12, 0x08, 0x8E);
-    idt_set_gate(45, (unsigned)13, 0x08, 0x8E);
-    idt_set_gate(46, (unsigned)14, 0x08, 0x8E);
-    idt_set_gate(47, (unsigned)15, 0x08, 0x8E);
-
     for(int i = 0; i < 16; i++){
         irq_routines[i] = 0;
     }
@@ -174,14 +156,31 @@ void idt_install()
 	_idtp.base = (unsigned int)&idt;
 
 	/* Clear out the entire IDT, initalizing it to zeros */
-	memset2(&idt, 0, sizeof(struct idt_entry) * 256);
+	memset(&idt, 0, sizeof(struct idt_entry) * 256);
 
 	/* Add any new ISRs to the IDT here using idt_set_gate */
+    idt_set_gate(32, (unsigned)irq0, 0x08, 0x8E);
+    idt_set_gate(33, (unsigned)irq1, 0x08, 0x8E);
+    idt_set_gate(34, (unsigned)irq2, 0x08, 0x8E);
+    idt_set_gate(35, (unsigned)irq3, 0x08, 0x8E);
+    idt_set_gate(36, (unsigned)irq4, 0x08, 0x8E);
+    idt_set_gate(37, (unsigned)irq5, 0x08, 0x8E);
+    idt_set_gate(38, (unsigned)irq6, 0x08, 0x8E);
+    idt_set_gate(39, (unsigned)irq7, 0x08, 0x8E);
+    idt_set_gate(40, (unsigned)irq8, 0x08, 0x8E);
+    idt_set_gate(41, (unsigned)irq9, 0x08, 0x8E);
+    idt_set_gate(42, (unsigned)irq10, 0x08, 0x8E);
+    idt_set_gate(43, (unsigned)irq11, 0x08, 0x8E);
+    idt_set_gate(44, (unsigned)irq12, 0x08, 0x8E);
+    idt_set_gate(45, (unsigned)irq13, 0x08, 0x8E);
+    idt_set_gate(46, (unsigned)irq14, 0x08, 0x8E);
+    idt_set_gate(47, (unsigned)irq15, 0x08, 0x8E);
 
 	/* Points the processor's internal register to the new IDT */
 	_idt_load();
-}
 
+
+}
 void _irq_handler(char *r)
 {
 

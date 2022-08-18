@@ -9,6 +9,9 @@
 #include "init_base.h"
 #include "plat.h"
 #include "userland.h"
+#include "multiboot.h"
+
+struct multiboot_info minfo;
 
 #define SYSTEM_TICKS_PER_SEC 10
 
@@ -31,7 +34,7 @@
  }
  
  //make it shutup
- static void nosound() {
+void nosound() {
  	uint8_t tmp = inb(0x61) & 0xFC;
  
  	outb(0x61, tmp);
@@ -45,26 +48,34 @@ void timer_wait(int ticks)
     eticks = timer_ticks + ticks;
     while(timer_ticks < eticks) 
     {
-        __asm__ __volatile__ ("sti;hlt;cli");
+        // _asm__ __volatile__ ("sti;hlt;cli");
     }
 }
 
  //Make a beep
  void beep() {
  	 play_sound(1000);
- 	 timer_wait(10);
- 	 nosound();
+ 	 // slepp(10);
+ 	 // nosound();
           //set_PIT_2(old_frequency);
  }
 
 void kernel_main(void) 
 {
 	clear_screen();
+    init_serial();
+    SERIAL_SET_FLAG_READY_PRINTF();
 	printf("--- tendos started ---\n");     
-	// beep(); // beep not works, vm rebooting           
+	// beep(); // beep working      
 	printf("Intializating base kernel...\n");
+    printf2("Kernel: Kernel command line: %s", minfo.cmdline);
+	// printf((char *) minfo.cmdline);
+	// printf("cmdline = %s\n", (char *) minfo.cmdline);
+    // printf(MULTIBOOT_TAG_TYPE_BOOT_LOADER_NAME);
+    printf("\n");
 	init_base();
 	userland_setup();
+    printf(readDisk(0));
 	go_to_userland();
 	printf("--- end of tendos(wtf) ---");
 }

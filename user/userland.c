@@ -50,7 +50,7 @@ void keyboard_callback() {
         char letter = scancode_to_char[(int) scancode];
         append(key_buffer, letter);
         char str[2] = {letter, '\0'};
-        print_string(str);
+        printf(str);
     }
 }
 
@@ -76,7 +76,7 @@ void shell() {
     if (status & 1) {
       int abcdefgh = 0;
       while (stringabc[abcdefgh] != 0) {
-          write_serial(stringabc[abcdefgh]);
+          // write_serial(stringabc[abcdefgh]);
           abcdefgh++;
       };
       keyboard_callback();

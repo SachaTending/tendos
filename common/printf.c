@@ -30,6 +30,7 @@
 #include "types.h"
 #include "stdarg.h"
 #include "screen.h"
+#include "stdbool.h"
 
 /* printf 20071010
 
@@ -329,7 +330,7 @@ do_conversion_int (unsigned long long val, int f, int width, int precision,
 	char buf[32], *leftbuf = "", *bufp;
 
 	if (f & CONVERSION_CHARACTER) {
-		PUTCHAR ((int)val);
+		printf ((char *)val);
 		return n;
 	}
 	if ((f & HAS_PRECISION) && precision == 0 && val == 0)
@@ -383,15 +384,15 @@ do_conversion_int (unsigned long long val, int f, int width, int precision,
 	}
 	bufp = buf;
 	while (leftsp--)
-		PUTCHAR (' ');
+		printf ((char *)' ');
 	while (leftlen--)
-		PUTCHAR (*leftbuf++);
+		printf ((char *) *leftbuf++);
 	while (leftzero--)
-		PUTCHAR ('0');
+		printf ((char *)'0');
 	while (len--)
-		PUTCHAR (*bufp++);
+		printf ((char *)*bufp++);
 	while (rightsp--)
-		PUTCHAR (' ');
+		printf ((char *)' ');
 error:
 	return n;
 }
@@ -415,11 +416,11 @@ do_conversion_string (const char *str, int f, int width, int precision,
 			leftsp = width - len;
 	}
 	while (leftsp--)
-		PUTCHAR (' ');
+		printf ((char *)' ');
 	while (len--)
-		PUTCHAR (*str++);
+		printf ((char *)*str++);
 	while (rightsp--)
-		PUTCHAR (' ');
+		printf ((char *)' ');
 error:
 	return n;
 }
@@ -445,7 +446,7 @@ do_printf (const char *format, va_list ap, int (*func)(int c, void *data),
 			if (f == END_STRING) {
 				break;
 			} else if (f & CONVERSION_NONE) {
-				PUTCHAR ('%');
+				printf ('%');
 			} else if (f & CONVERSION_INT) {
 				long long intval;
 				unsigned long long uintval;
@@ -514,7 +515,7 @@ do_printf (const char *format, va_list ap, int (*func)(int c, void *data),
 							   0, 0, func, data);
 			}
 		} else {
-			PUTCHAR (c);
+			printf ((char *) c);
 		}
 	}
 error:
@@ -522,9 +523,9 @@ error:
 }
 
 static int
-do_putchar (int c, void *data)
+do_putchar (char *c, void *data)
 {
-	putchar (c);
+	printf (c);
 	return 0;
 }
 
@@ -554,9 +555,28 @@ printf_old (const char *format, ...)
 	return r;
 }
 
+bool SERIAL_READY = false;
+
+void SERIAL_SET_FLAG_READY_PRINTF()
+{
+	SERIAL_READY = true;
+}
+
 void printf(char *string)
 {
+	if (SERIAL_READY){
+		write_serial(string);
+	}
 	print_string(string);
+}
+
+void printf2(const char *format, ...)
+{
+	char t = format;
+	if (SERIAL_READY){
+		write_serial(t);
+	}
+	print_string(t);
 }
 
 void printfc(char color, char *string)

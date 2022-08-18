@@ -220,7 +220,7 @@ uint8_t get_drive_type(){
 void floppy_write_cmd(char cmd) {
     int i; // do timeout, 60 seconds
     for(i = 0; i < 600; i++) {
-        sleep(1); // sleep 10 ms
+        // sleep(1); // sleep 10 ms
         if(0x80 & inb(FLOPPY_MAIN_STATUS_REGISTER)) {
             return (void) outb(FLOPPY_DATA_FIFO, cmd);
         }
@@ -235,7 +235,7 @@ unsigned char floppy_read_data() {
 
     int i; // do timeout, 60 seconds
     for(i = 0; i < 600; i++) {
-        sleep(1); // sleep 10 ms
+        // sleep(1); // sleep 10 ms
         if(0x80 & inb(FLOPPY_MAIN_STATUS_REGISTER)) {
             return inb(FLOPPY_DATA_FIFO);
         }
@@ -341,7 +341,7 @@ void floppy_recalibrate(uint8_t drive){
     floppy_write_cmd(FLOPPY_RECALIBRATE);
     floppy_write_cmd(drive);
 
-    irq_wait(floppy_irq);
+    // irq_wait(floppy_irq);
     uint8_t st0 = 0;
     uint8_t cyl = 0;
     floppy_sense_interrupt(&st0, &cyl);
@@ -375,10 +375,10 @@ void floppy_sense_interrupt(uint8_t *st0, uint8_t *cyl){
 void floppy_reset(bool firstTime){
     uint8_t DOR = inb(FLOPPY_DIGITAL_OUTPUT_REGISTER);
     outb(FLOPPY_DIGITAL_OUTPUT_REGISTER, 0);
-    sleep(10);
+    // sleep(10);
     outb(FLOPPY_DIGITAL_OUTPUT_REGISTER, DOR & 0x8);
     if(!firstTime){ // check if IRQs were enabled
-        irq_wait(floppy_irq);
+        // irq_wait(floppy_irq);
     }
 }
 
@@ -444,7 +444,7 @@ int floppy_write(int drive, uint32_t lba, void* address, uint16_t count){
 
 int floppy_read(int drive, uint32_t lba, void* address, uint16_t count){
     initFloppyDMA((uint32_t) address, count);
-
+    // fdc_motor_on();
     drive_select(drive);
 
     uint16_t cyl;
@@ -535,7 +535,7 @@ void floppy_rw_command(int drive, int head, int cyl, int sect, int EOT, uint8_t 
         MSR = inb(FLOPPY_MAIN_STATUS_REGISTER);
         RQM = (MSR & 0x80) > 1;
         //kprint(toString(MSR, 2));
-        sleep(10);
+        // sleep(10);
         if(RQM)
             break;
     }
