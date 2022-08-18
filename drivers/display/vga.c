@@ -48,6 +48,24 @@ void print_string(char *string) {
     set_cursor(offset);
 }
 
+void print_string2(const char *string, ...) {
+    int offset = get_cursor();
+    int i = 0;
+    while (string[i] != 0) {
+        if (offset >= MAX_ROWS * MAX_COLS * 2) {
+            offset = scroll_ln(offset);
+        }
+        if (string[i] == '\n') {
+            offset = move_offset_to_new_line(offset);
+        } else {
+            set_char_at_video_memory(string[i], offset, WHITE_ON_BLACK);
+            offset += 2;
+        }
+        i++;
+    }
+    set_cursor(offset);
+}
+
 void printc_string(char color, char *string) {
     int offset = get_cursor();
     int i = 0;

@@ -28,7 +28,9 @@ static void keyboard_callback(char *regs) {
     printf("\n");
 }
 
+void irq1();
+
 void init_keyboard() {
-   irq_register_handler(1, keyboard_callback); 
+   irq_register_handler(irq1, keyboard_callback); 
    printf("Keyboard: Keyboard handler registered at irq 1\n");
 }
